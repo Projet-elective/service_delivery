@@ -22,6 +22,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+const uri = 'mongodb+srv://Maxence:sGuvnOpVCbCKTWh4@cluster0.2caar.mongodb.net/CESI_EAT/';
+mongoose.connect(uri,
+    { useNewUrlParser: true,
+      useUnifiedTopology: true,
+      dbName: 'CESI_EAT'
+    })
+    .then(() => console.log('Connexion à MongoDB  CESI_EAT réussie !'))
+    .catch(() => console.log('Connexion à MongoDB CESI_EAT échouée !'));
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
