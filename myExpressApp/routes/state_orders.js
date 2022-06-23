@@ -23,7 +23,7 @@ router.patch('/validateOrder/:id', function(req, res) {
     const idOrder = req.params.id;
     const logged_user = req.body.user;
 
-    orderModel,findByIdAndUpdate(idOrder, {state_order: 'En cours de préparation', accepted_order: true}, function(err, order) {
+    orderModel.findByIdAndUpdate(idOrder, {state_order: 'En cours de préparation', accepted_order: true}, function(err, order) {
         if(logged_user != order.idRestaurant.idOwner) {
             res.send("Vous n'êtes pas autorisé à effectuer cette action.");
         } else {
@@ -38,7 +38,7 @@ router.patch('/isReadyOrder/:id', function(req, res) {
     const idOrder = req.params.id;
     const logged_user = req.body.user;
 
-    orderModel,findByIdAndUpdate(idOrder, {state_order: 'Commande prête'}, function(err, order) {
+    orderModel.findByIdAndUpdate(idOrder, {state_order: 'Commande prête'}, function(err, order) {
         if(logged_user != order.idRestaurant.idOwner) {
             res.send("Vous n'êtes pas autorisé à effectuer cette action.");
         } else {
@@ -52,7 +52,7 @@ router.patch('/deliverOrder/:id', function(req, res) {
     const idOrder = req.params.id;
     const logged_user = req.body.user;
 
-    orderModel,findByIdAndUpdate(idOrder, {state_order: 'En cours de livraison'}, function(err, order) {
+    orderModel.findByIdAndUpdate(idOrder, {state_order: 'En cours de livraison'}, function(err, order) {
         if(logged_user != order.idRestaurant.idOwner) {
             res.send("Vous n'êtes pas autorisé à effectuer cette action.");
         } else {
@@ -67,7 +67,7 @@ router.patch('/completeOrder/:id', function(req, res) {
     const idOrder = req.params.id;
     const logged_user = req.body.user;
 
-    orderModel,findByIdAndUpdate(idOrder, {state_order: 'Commande livrée'}, function(err, order) {
+    orderModel.findByIdAndUpdate(idOrder, {state_order: 'Commande livrée'}, function(err, order) {
         if(logged_user != order.idRestaurant.deliverer_id) {
             res.send("Vous n'êtes pas autorisé à effectuer cette action.");
         } else {
