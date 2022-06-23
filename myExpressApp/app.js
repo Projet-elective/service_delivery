@@ -3,9 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var state_orderRouter = require('./routes/state_order');
 
 var app = express();
 
@@ -20,18 +21,20 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/state_orders', state_orderRouter);
 
 const uri = 'mongodb+srv://Maxence:sGuvnOpVCbCKTWh4@cluster0.2caar.mongodb.net/CESI_EAT/';
-mongoose.connect(uri,
+/*mongoose.connect(uri,
     { useNewUrlParser: true,
       useUnifiedTopology: true,
       dbName: 'CESI_EAT'
     })
     .then(() => console.log('Connexion à MongoDB  CESI_EAT réussie !'))
-    .catch(() => console.log('Connexion à MongoDB CESI_EAT échouée !'));
+    .catch(() => console.log('Connexion à MongoDB CESI_EAT échouée !'));*/
 
-
+mongoose.connect('mongodb://localhost:27017/cesi-eat')
+    .then(() => console.log('Connexion à MongoDB méthode: user/pass réussie !'))
+    .catch(() => console.log('Connexion à MongoDB méthode: user/pass échouée !'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
