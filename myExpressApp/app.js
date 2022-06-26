@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/state_orders', state_orderRouter);
+app.use('/api/state_orders', state_orderRouter);
 
 const uri = 'mongodb+srv://Maxence:sGuvnOpVCbCKTWh4@cluster0.2caar.mongodb.net/CESI_EAT/';
 /*mongoose.connect(uri,
@@ -51,5 +51,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(44200);
 
 module.exports = app;
