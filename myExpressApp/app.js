@@ -21,22 +21,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Set the middleware before the other routes
 app.use(auth);
 app.use('/', indexRouter);
 app.use('/api/state_orders', state_orderRouter);
 
-const uri = 'mongodb+srv://Maxence:sGuvnOpVCbCKTWh4@cluster0.2caar.mongodb.net/CESI_EAT/';
-/*mongoose.connect(uri,
-    { useNewUrlParser: true,
-      useUnifiedTopology: true,
-      dbName: 'CESI_EAT'
-    })
-    .then(() => console.log('Connexion à MongoDB  CESI_EAT réussie !'))
-    .catch(() => console.log('Connexion à MongoDB CESI_EAT échouée !'));*/
-
 mongoose.connect('mongodb://localhost:27017/cesi-eat')
-    .then(() => console.log('Connexion à MongoDB méthode: user/pass réussie !'))
-    .catch(() => console.log('Connexion à MongoDB méthode: user/pass échouée !'));
+    .then(() => console.log('Connexion à MongoDB méthode réussie !'))
+    .catch(() => console.log('Connexion à MongoDB méthode échouée !'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

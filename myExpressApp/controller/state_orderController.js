@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const orderModel = require('../models/ordersModel');
-const restaurantModel = require('../models/restaurantsModel');
 
+// Get the state of the order by ID
 exports.get = async(req, res) => {
     const idOrder = req.params.id;
     const logged_user = req.auth;
@@ -15,6 +15,7 @@ exports.get = async(req, res) => {
     }
 };
 
+// Validate the order by the restaurant
 exports.validate = function(req, res) {
     const idOrder = req.params.id;
     const logged_user = req.auth;
@@ -31,6 +32,7 @@ exports.validate = function(req, res) {
     });
 };
 
+// Change the state of the order to Ready
 exports.isReady = function(req, res) {
     const idOrder = req.params.id;
     const logged_user = req.auth;
@@ -45,6 +47,7 @@ exports.isReady = function(req, res) {
     });
 };
 
+// Change the state of the order to Delivering
 exports.deliver = function(req, res) {
     const idOrder = req.params.id;
     const logged_user = req.auth;
@@ -60,6 +63,7 @@ exports.deliver = function(req, res) {
     });
 };
 
+// Change the state of the order to Completed
 exports.complete = function(req, res) {
     const idOrder = req.params.id;
     const logged_user = req.auth;
