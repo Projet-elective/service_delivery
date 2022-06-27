@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
+const {auth} = require('./auth');
 
 var indexRouter = require('./routes/index');
 var state_orderRouter = require('./routes/state_orders');
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(auth);
 app.use('/', indexRouter);
 app.use('/api/state_orders', state_orderRouter);
 

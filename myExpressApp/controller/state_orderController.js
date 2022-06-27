@@ -4,10 +4,10 @@ const restaurantModel = require('../models/restaurantsModel');
 
 exports.get = async(req, res) => {
     const idOrder = req.params.id;
-    const logged_user = req.body.user;
+    const logged_user = req.auth;
 
     const order = await orderModel.findById(idOrder).populate("idRestaurant");
-    if(logged_user != order.idRestaurant.idOwner && logged_user != order.idUser && logged_user != order.deliverer_id) res.send("Vous n'avez pas accès à cette commande.");
+    if(logged_user.userId != order.idRestaurant.idOwner && logged_user != order.idUser && logged_user != order.deliverer_id) res.send("Vous n'avez pas accès à cette commande.");
     else try {
         res.send(order);
     } catch (err) {
@@ -17,10 +17,10 @@ exports.get = async(req, res) => {
 
 exports.validate = function(req, res) {
     const idOrder = req.params.id;
-    const logged_user = req.body.user;
+    const logged_user = req.auth;
 
     orderModel.findByIdAndUpdate(idOrder, {state_order: 'En cours de préparation', accepted_order: true}).populate("idRestaurant").exec(function (err, order) {
-        if(logged_user != order.idRestaurant.idOwner) {
+        if(logged_user.userId != order.idRestaurant.idOwner) {
             res.send("Vous n'êtes pas autorisé à effectuer cette action.");
             res.send(order.idRestaurant.idOwner);
         } else {
@@ -33,10 +33,10 @@ exports.validate = function(req, res) {
 
 exports.isReady = function(req, res) {
     const idOrder = req.params.id;
-    const logged_user = req.body.user;
+    const logged_user = req.auth;
 
     orderModel.findByIdAndUpdate(idOrder, {state_order: 'Commande prête'}).populate("idRestaurant").exec(function (err, order) {
-        if(logged_user != order.idRestaurant.idOwner) {
+        if(logged_user.userId != order.idRestaurant.idOwner) {
             res.send("Vous n'êtes pas autorisé à effectuer cette action.");
         } else {
             if(err) res.send(err);
@@ -47,10 +47,10 @@ exports.isReady = function(req, res) {
 
 exports.deliver = function(req, res) {
     const idOrder = req.params.id;
-    const logged_user = req.body.user;
+    const logged_user = req.auth;
 
     orderModel.findByIdAndUpdate(idOrder, {state_order: 'En cours de livraison'}).populate("idRestaurant").exec(function (err, order) {
-        if(logged_user != order.idRestaurant.idOwner) {
+        if(logged_user.userId != order.idRestaurant.idOwner) {
             res.send("Vous n'êtes pas autorisé à effectuer cette action.");
         } else {
             if(err) res.send(err);
@@ -62,10 +62,10 @@ exports.deliver = function(req, res) {
 
 exports.complete = function(req, res) {
     const idOrder = req.params.id;
-    const logged_user = req.body.user;
+    const logged_user = req.auth;
 
     orderModel.findByIdAndUpdate(idOrder, {state_order: 'Commande livrée'}, function(err, order) {
-        if(logged_user != order.deliverer_id) {
+        if(logged_user.userId != order.deliverer_id) {
             res.send("Vous n'êtes pas autorisé à effectuer cette action.");
         } else {
             if(err) res.send(err);
