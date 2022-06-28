@@ -1,15 +1,16 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const mongoose = require('mongoose');
 const {auth} = require('./auth');
 
-var indexRouter = require('./routes/index');
-var state_orderRouter = require('./routes/state_orders');
+const indexRouter = require('./routes/index');
+const state_orderRouter = require('./routes/state_orders');
+const commercialRouter = require('./routes/commercial');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,9 +22,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(auth);
+//app.use(auth);
 app.use('/', indexRouter);
 app.use('/api/state_orders', state_orderRouter);
+app.use('/api/commercial', commercialRouter);
 
 const uri = 'mongodb+srv://Maxence:sGuvnOpVCbCKTWh4@cluster0.2caar.mongodb.net/CESI_EAT/';
 /*mongoose.connect(uri,
@@ -35,8 +37,8 @@ const uri = 'mongodb+srv://Maxence:sGuvnOpVCbCKTWh4@cluster0.2caar.mongodb.net/C
     .catch(() => console.log('Connexion à MongoDB CESI_EAT échouée !'));*/
 
 mongoose.connect('mongodb://localhost:27017/cesi-eat')
-    .then(() => console.log('Connexion à MongoDB méthode: user/pass réussie !'))
-    .catch(() => console.log('Connexion à MongoDB méthode: user/pass échouée !'));
+    .then(() => console.log('Connexion à MongoDB méthode réussie !'))
+    .catch(() => console.log('Connexion à MongoDB méthode échouée !'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
